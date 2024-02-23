@@ -14,12 +14,12 @@ services:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - php
-      - mysql
+      - mariadb
     networks:
       - appName
 
-  mysql:
-    image: mysql:5.7.22
+  mariadb:
+    image: mariadb:10.11
     container_name: db
     restart: unless-stopped
     tty: true
@@ -32,8 +32,6 @@ services:
       MYSQL_USER: nelwhix
       MYSQL_PASSWORD: admin
       MYSQL_ROOT_PASSWORD: admin
-      SERVICE_TAGS: dev
-      SERVICE_NAME: mysql
     networks:
       - appName
 
@@ -46,13 +44,5 @@ services:
       - ./app:/var/www/html
     ports:
       - "9000:9000"
-    networks:
-      - appName
-  composer:
-    image: composer:latest
-    container_name: composer
-    volumes:
-      - ./app:/var/www/html
-    working_dir: /var/www/html
     networks:
       - appName
